@@ -1,4 +1,4 @@
-v {xschem version=3.4.6 file_version=1.2
+v {xschem version=3.4.7 file_version=1.2
 * Copyright 2021 Stefan Frederik Schippers
 * 
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,15 +23,15 @@ format="@spiceprefix@name @pinlist @model L=@L W=@W
 + mult=@mult m=@mult"
 template="name=M1
 W=1e-6
-L=0.15e-6
+L=0.11e-6
 nf=1 
 mult=1
-abdrain=\\"'int((nf+1)/2) * W/nf * 0.29'\\" 
-lsdrain=\\"'2*int((nf+1)/2) * (W/nf + 0.29)'\\"
-absource=\\"'int((nf+2)/2) * W/nf * 0.29'\\" 
-lssource=\\"'2*int((nf+2)/2) * (W/nf + 0.29)'\\"
-nrd=\\"'0.29 / W'\\" nrs=\\"'0.29 / W'\\"
-sa=0 sb=0 sd=0 dta=0
+abdrain=\\"'int((nf+1)/2) * W/nf * 0.30e-6'\\" 
+lsdrain=\\"'2*int((nf+1)/2) * (W/nf + 0.30e-6)'\\"
+absource=\\"'int((nf+2)/2) * W/nf * 0.30e-6'\\" 
+lssource=\\"'2*int((nf+2)/2) * (W/nf + 0.30e-6)'\\"
+nrd=\\"'0.30e-6 / W'\\" nrs=\\"'0.30e-6 / W'\\"
+sa=0.36e-6 sb=0.36e-6 sd=0 dta=0
 lgsource=1.0e-06
 lgdrain=1.0e-06
 model=nmos1v2hvt
