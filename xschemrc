@@ -19,6 +19,7 @@
 #### <install_root>/share/xschem/xschem_library/devices
 #### <install_root>/share/doc/xschem/examples
 #### <install_root>/share/doc/xschem/ngspice
+#### <install_root>/share/doc/xschem/ngspice_verilog_cosim
 #### <install_root>/share/doc/xschem/logic
 #### <install_root>/share/doc/xschem/xschem_simulator
 #### <install_root>/share/doc/xschem/generators
@@ -33,6 +34,7 @@
 #### ../xschem_library/devices
 #### ../xschem_library/examples
 #### ../xschem_library/ngspice
+#### ../xschem_library/ngspice_verilog_cosim
 #### ../xschem_library/logic
 #### ../xschem_library/xschem_simulator
 #### ../xschem_library/generators
@@ -48,6 +50,7 @@
 # append XSCHEM_LIBRARY_PATH :${XSCHEM_SHAREDIR}/xschem_library/devices
 # append XSCHEM_LIBRARY_PATH :${xschem_doc_dir}/examples
 # append XSCHEM_LIBRARY_PATH :${xschem_doc_dir}/ngspice
+# append XSCHEM_LIBRARY_PATH :${xschem_doc_dir}/ngspice_verilog_cosim
 # append XSCHEM_LIBRARY_PATH :${xschem_doc_dir}/logic
 # append XSCHEM_LIBRARY_PATH :${xschem_doc_dir}/xschem_simulator
 # append XSCHEM_LIBRARY_PATH :${xschem_doc_dir}/generators
@@ -62,11 +65,13 @@
 # append XSCHEM_LIBRARY_PATH :${xschem_doc_dir}/gschem_import
 # append XSCHEM_LIBRARY_PATH :${xschem_doc_dir}/gschem_import/sym
 
+
 #### For Windows, use ; instead of :, and enclosed pathname with ""
 # append XSCHEM_LIBRARY_PATH ";${XSCHEM_SHAREDIR}/xschem_library"
 # append XSCHEM_LIBRARY_PATH ";${XSCHEM_SHAREDIR}/xschem_library/devices"
 # append XSCHEM_LIBRARY_PATH ";${xschem_doc_dir}/examples"
 # append XSCHEM_LIBRARY_PATH ";${xschem_doc_dir}/ngspice"
+# append XSCHEM_LIBRARY_PATH ";${xschem_doc_dir}/ngspice_verilog_cosim"
 # append XSCHEM_LIBRARY_PATH ";${xschem_doc_dir}/logic"
 # append XSCHEM_LIBRARY_PATH ";${xschem_doc_dir}/xschem_simulator"
 # append XSCHEM_LIBRARY_PATH ";${xschem_doc_dir}/generators"
@@ -201,6 +206,11 @@ set local_netlist_dir 2
 #### default: 0
 # set persistent_command 1
 
+#### if set to 0 users must click a point after hitting a command key
+#### like 'w(ire)', 'l(ine)' and so on.
+#### default is 1 (hitting the command key sets also the first point).
+# set infix_interface 0
+
 #### if set to 1 allow click & drag objects in the schematic 
 #### to move them without keyboard commands ('m')
 #### default: enabled (1)
@@ -221,6 +231,12 @@ set local_netlist_dir 2
 #### if not set show selected items at end of drag. Default: enabled (1)
 # set incremental_select 0
 
+#### wires are drawn in free-form mode with this mode disabled (default).
+#### if set to 1, wires drawn on the schematic will strictly follow
+#### orthogonal routes to connect two distinct points together.
+#### default: 0
+# set orthogonal_wiring 1
+
 #### if set to 1 automatically join/trim wires while editing
 #### this may slow down on rally big designs. Can be disabled via menu 
 #### default: 0
@@ -233,6 +249,15 @@ set local_netlist_dir 2
 #### set widget scaling (mainly for font display), this is useful on 4K displays
 #### default: unset (tk uses its default) > 1.0 ==> bigger 
 # set tk_scaling 1.7
+
+#### toolbar icons are bitmaps. Their size is 24x24. This can be changed to
+#### accommodate UHD displays.
+#### the zoom factor is an integer that can be used to enlarge these icons
+#### Default value: 1
+# set toolbar_icon_zoom 2
+#### context menu icons are 16 x 16. they can be enlarged by the following
+#### integer. default value: 1
+# set ctxmenu_icon_zoom 2
 
 #### use the tclreadline package if available , Default: 1 (enabled).
 # set use_tclreadline 1
@@ -262,11 +287,30 @@ set local_netlist_dir 2
 #### enable drawing crosshairs at mouse coordinates. Default: disabled (0)
 # set draw_crosshair 1
 
-#### set crosshair layer; Default 3 (TEXTLAYER)
-# set crosshair_layer 3
+#### set crosshair layer; Default 8 (Yellow)
+# set crosshair_layer 8
+
+#### set crosshair size; Default: 0 (full screen spanning crosshair) 
+# set crosshair_size 2
+
+#### enable drawing a diamond-shaped cursor at the closest circuit endpoint. Default: disabled (0)
+# set snap_cursor 1
+
+#### set snap_cursor_size; Default: 6 (Diamond-shaped cursor that snaps to nearest circuit endpoint)
+# set snap_cursor_size 6
+
+#### set cadence_compat; Default: 0 (Cadence-style keybinds are not used by default)
+# set cadence_compat 1
+
+#### if set, then, when cursor (regardless of style) is on an object, and user clicks (though mouse pointer is not on the object),
+#### the object is selected. Default: 0
+# set use_cursor_for_selection 1
 
 #### enable to scale grid point size as done with lines at close zoom, default: 0
 # set big_grid_points 0
+
+#### explicitly set grid point size in pixels. Default: -1 (not set)
+# set grid_point_size 2
 
 #### enable drawing grid axes. Default: enabled (1)
 # set draw_grid_axes 1
@@ -288,8 +332,8 @@ set local_netlist_dir 2
 #### This allows to move/zoom/pan the schematic while editing attributes.
 #### Clicking in the schematic window usually closes the dialog box or starts
 #### editing a new component if clicking on a new component.
-#### default: enabled (1)
-# set autofocus_mainwindow 0
+#### default: NOT enabled (0)
+# set autofocus_mainwindow 1
 
 #### replace selected text in text widgets when pasting from clipboard
 #### default: enabled (1)
@@ -362,12 +406,12 @@ set local_netlist_dir 2
 #   "#aa2222" "#7ccc40" "#00ffcc" "#ce0097" "#d2d46b"
 #   "#ef6158" "#fdb200" }
 
-#  set dark_colors {
-#   "#000000" "#00ccee" "#3f3f3f" "#cccccc" "#88dd00"
-#   "#bb2200" "#00ccee" "#ff0000" "#ffff00" "#ffffff"
-#   "#ff00ff" "#00ff00" "#0000cc" "#aaaa00" "#aaccaa"
-#   "#ff7777" "#bfff81" "#00ffcc" "#ce0097" "#d2d46b"
-#   "#ef6158" "#fdb200" }
+  set dark_colors {
+   "#000000" "#00ccee" "#3f3f3f" "#cccccc" "#00CA66"
+   "#bb2200" "#00ccee" "#ff0000" "#ffff00" "#ffffff"
+   "#ff00ff" "#00ff00" "#0000cc" "#aaaa00" "#aaccaa"
+   "#ff7777" "#bfff81" "#00ffcc" "#ce0097" "#d2d46b"
+   "#ef6158" "#fdb200" }
 
 ###########################################################################
 #### CUSTOM FILL PATTERNS  MAY BE DEFINED HERE
@@ -440,7 +484,7 @@ set local_netlist_dir 2
 # set editor {gvim -f -geometry 90x28}
 # set editor { xterm -geometry 100x40 -e nano }
 # set editor { xterm -geometry 100x40 -e pico }
-# set editor {gedit -w}
+set editor {gedit -w}
 
 #### For Windows
 # set editor {notepad.exe}
@@ -516,7 +560,21 @@ set local_netlist_dir 2
 #   }
 # }
 
+###########################################################################
+#### TCL COMMANDS TO BE EXECUTED AFTER ANY NEW WINDOW CREATION
+###########################################################################
+#### this hook is useful to execute user UI code (like event binding,
+#### new buttons / menu entries etc).
+# set user_startup_commands {
+#   bind [xschem get current_win_path] <Key-plus>  {
+#     puts Hello
+#   }
+# }
 
+###########################################################################
+#### TCL COMMANDS TO BE EXECUTED AFTER GENERATING NETLIST
+###########################################################################
+# set netlist_postprocess {textfile $netlist_dir/[xschem get netlist_name fallback]}
 
 ###########################################################################
 #### WEB URL DOWNLOAD HELPER APPLICATION
@@ -538,6 +596,32 @@ set local_netlist_dir 2
 #### default: enabled. Interface can be changed runtime if only one window 
 #### or tab is open.
 # set tabbed_interface 0
+
+###########################################################################
+#### ALTERNATE SYMBOL PLACEMENT BROWSER
+###########################################################################
+#### uses a new symbol placement widget. Default: not enabled (0)
+# set new_symbol_browser 1
+#### defines a list of paths to search for. If empty uses all xschem
+#### XSCHEM_LIBRARY_PATH paths. Default: empty
+# set new_symbol_browser_paths {... ... ...}
+#### defines the depth to descend into each path. default: 2
+# set new_symbol_browser_depth 3
+#### defines the extensions to search for. Default: {\.(sch|sym|tcl)$}
+# set new_symbol_browser_ext {\.(sch|sym|tcl)$}
+
+###########################################################################
+#### ALTERNATE LOAD FILE BROWSER
+###########################################################################
+#### uses a new file browser widget. Default: not enabled (0)
+# set new_file_browser 1
+#### defines a list of paths to search for. If empty uses all xschem
+#### XSCHEM_LIBRARY_PATH paths. Default: empty
+# set new_file_browser_paths {... ... ...}
+#### defines the depth to descend into each path. default: 2
+# set new_file_browser_depth 3
+#### defines the extensions to search for. Default: {\.(sch|sym|tcl)$}
+# set new_file_browser_ext {\.(sch|tcl)$}
 
 ###########################################################################
 #### CASE INSENSITIVE SYMBOL LOOKUP
@@ -574,6 +658,16 @@ set local_netlist_dir 2
 #### default: not enabled (0)
 # set hide_empty_graphs 0
 
+
+###########################################################################
+#### ATTACH HOOK FUNCTION TO CURSOR 2 MOVEMENT 
+###########################################################################
+#### if enabled whenever the cursor2 is moved the specified script is
+#### executed. Examples:
+####  set cursor_2_hook {conducting_devices 10e-3 nodraw}
+####  set cursor_2_hook {hilight_high_nets 0 1.8 nodraw}
+#### this can be used to add backannotation actions.
+
 ###########################################################################
 #### LIVE BACKANNOTATION OF DATA AT CURSOR 2 (B) POSITION
 ###########################################################################
@@ -604,4 +698,36 @@ set local_netlist_dir 2
 #### objects ('w', 'l', 't', 'r', ...) try to set this to 1.
 #### Default: not enabled (0)
 # set fix_mouse_coord 0
+
+#### redefine some variables to emulate Cadence UI / bindkeys
+# source /home/schippes/share/xschem/cadence_style_rc
+
+#### reset some font attributes (man 3tk font).
+# font configure TkFixedFont -size 14
+# font configure TkDefaultFont -size 14
+# font configure TkTextFont -size 14
+# font configure TkMenuFont -size 14
+
+
+####################
+# LF 11 SPECIFIC   #
+####################
+
+# The following paths point to the location of the pdk and model files
+set LF11_PDK /secondary/opt/pdk/lf11_xschem/lf11_pdk_xschem
+set LF11_MODELS /secondary/opt/pdk/lf11_xschem/models
+
+append XSCHEM_LIBRARY_PATH :${LF11_PDK}
+
+##################
+# USER LIBRARIES #
+##################
+
+#append XSCHEM_LIBRARY_PATH :/path_to_library1
+#append XSCHEM_LIBRARY_PATH :/path_to_library2
+#append XSCHEM_LIBRARY_PATH :/path_to_library3
+
+
+
+
 
