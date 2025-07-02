@@ -1,0 +1,22 @@
+To creatre a new xschem library:
+
+Step 1: Create the directory
+
+mkdir NEWLIB
+cd NEWLIB
+ln -s ../xschemrc
+
+Step 2: Add the new directory to the xschemrc file:
+
+Open the xschemrc file and add at the end the following line:
+
+append XSCHEM_LIBRARY_PATH :<absolute path to the NEWLIB>
+
+example:
+
+append XSCHEM_LIBRARY_PATH :/secondary/opt/pdk/lf11_xschem/VERILOGA
+
+
+
+
+

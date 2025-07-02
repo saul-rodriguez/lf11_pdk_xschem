@@ -709,23 +709,14 @@ set editor {gedit -w}
 # font configure TkMenuFont -size 14
 
 
-####################
-# LF 11 SPECIFIC   #
-####################
+#############################
+# LF 11 AND USER LIBRARIES  #
+#############################
 
-# The following paths point to the location of the pdk and model files
-set LF11_PDK /secondary/opt/pdk/lf11_xschem/lf11_pdk_xschem
-set LF11_MODELS /secondary/opt/pdk/lf11_xschem/models
-
-append XSCHEM_LIBRARY_PATH :${LF11_PDK}
-
-##################
-# USER LIBRARIES #
-##################
-
+#Append new libraries to the path using the following template:
 #append XSCHEM_LIBRARY_PATH :/path_to_library1
-#append XSCHEM_LIBRARY_PATH :/path_to_library2
-#append XSCHEM_LIBRARY_PATH :/path_to_library3
+
+
 
 
 
