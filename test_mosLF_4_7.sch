@@ -43,56 +43,52 @@ C {code_shown.sym} 290 -270 0 0 {name=s1 only_toplevel=false value="
 .lib '../../../models/montecarlo_config.lib' mc_off
 .lib '../../../models/lf11is.lib' 1v2hvt_tt
 
-.option temp=21
+.option temp=27
 .option savecurrents
-.save all @n.xm1.nm1[gm] @n.xm1.nm1[ids]
+.save all @n.xm1.nm1[gm] @n.xm1.nm1[ids] @n.xm2.nm1[gm] @n.xm2.nm1[ids]
 
 .control
 pre_osdi ../../../models/psp103.osdi
 op
-write test_mosLF.raw
+write test_mosLF_4_7.raw
 .endc
 "}
 C {lab_pin.sym} 230 -30 0 1 {name=p4 sig_type=std_logic lab=0
 }
-C {nmos1v2hvt_4.sym} 100 -100 0 0 {name=M1
-W=10e-6
-L=1e-6
-nf=1 
-mult=1
-abdrain="'int((nf+1)/2) * W/nf * 0.29'" 
-lsdrain="'2*int((nf+1)/2) * (W/nf + 0.29)'"
-absource="'int((nf+2)/2) * W/nf * 0.29'" 
-lssource="'2*int((nf+2)/2) * (W/nf + 0.29)'"
-nrd="'0.29 / W'" nrs="'0.29 / W'"
-sa=0 sb=0 sd=0 dta=0
-lgsource=1.0e-06
-lgdrain=1.0e-06
-model=nmos1v2hvt
-spiceprefix=X
-}
 C {vsource.sym} 190 -320 0 0 {name=V3 value=1.2 savecurrent=false}
 C {lab_pin.sym} 230 -220 0 1 {name=p3 sig_type=std_logic lab=0
 }
-C {vsource.sym} 120 -290 0 0 {name=V4 value=0.5 savecurrent=false}
-C {vsource.sym} -30 -330 0 0 {name=V5 value=0.9 savecurrent=false}
-C {pmos1v2hvt_4.sym} 40 -370 0 0 {name=M2
-W=10e-6
-L=1e-6
+C {vsource.sym} 120 -290 0 0 {name=V4 value=0.7 savecurrent=false}
+C {vsource.sym} -30 -330 0 0 {name=V5 value=0.95 savecurrent=false}
+C {nfet_4_7.sym} 100 -100 0 0 {name=m1
+W=1e-6
+L=1.11e-6
 nf=1 
 mult=1
-abdrain="'int((nf+1)/2) * W/nf * 0.29'" 
-lsdrain="'2*int((nf+1)/2) * (W/nf + 0.29)'"
-absource="'int((nf+2)/2) * W/nf * 0.29'" 
-lssource="'2*int((nf+2)/2) * (W/nf + 0.29)'"
-nrd="'0.29 / W'" nrs="'0.29 / W'"
-sa=0 sb=0 sd=0 dta=0
+abdrain="'int((nf+1)/2) * W/nf * 0.30e-6'" 
+lsdrain="'2*int((nf+1)/2) * (W/nf + 0.30e-6)'"
+absource="'int((nf+2)/2) * W/nf * 0.30e-6'" 
+lssource="'2*int((nf+2)/2) * (W/nf + 0.30e-6)'"
+nrd="'0.30e-6 / W'" nrs="'0.30e-6 / W'"
+sa=0.36e-6 sb=0.36e-6 sd=0 dta=0
+lgsource=1.0e-06
+lgdrain=1.0e-06
+model=nmos1v2hvt
+spiceprefix=x
+}
+C {pfet_4_7.sym} 40 -370 0 0 {name=m2
+W=1e-6
+L=1.11e-6
+nf=1 
+mult=1
+abdrain="'int((nf+1)/2) * W/nf * 0.30e-6'" 
+lsdrain="'2*int((nf+1)/2) * (W/nf + 0.30e-6)'"
+absource="'int((nf+2)/2) * W/nf * 0.30e-6'" 
+lssource="'2*int((nf+2)/2) * (W/nf + 0.30e-6)'"
+nrd="'0.30e-6 / W'" nrs="'0.30e-6 / W'"
+sa=0.36e-6 sb=0.36e-6 sd=0 dta=0
 lgsource=1.0e-06
 lgdrain=1.0e-06
 model=pmos1v2hvt
-spiceprefix=X
+spiceprefix=x
 }
-C {ngspice_get_value.sym} 140 -140 0 0 {name=r1 node=@n.xm1.nm1[gm]
-descr="gm="}
-C {ngspice_get_value.sym} 140 -120 0 0 {name=r2 node=i(@n.xm1.nm1[ids])
-descr="ids="}
