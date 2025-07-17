@@ -60,25 +60,9 @@ C {lab_pin.sym} 230 -220 0 1 {name=p3 sig_type=std_logic lab=0
 }
 C {vsource.sym} 120 -290 0 0 {name=V4 value=0.7 savecurrent=false}
 C {vsource.sym} -30 -330 0 0 {name=V5 value=0.95 savecurrent=false}
-C {nfet_4_7.sym} 100 -100 0 0 {name=m1
+C {pmos1v2hvt_4.sym} 40 -370 0 0 {name=m1
 W=1e-6
-L=1.11e-6
-nf=1 
-mult=1
-abdrain="'int((nf+1)/2) * W/nf * 0.30e-6'" 
-lsdrain="'2*int((nf+1)/2) * (W/nf + 0.30e-6)'"
-absource="'int((nf+2)/2) * W/nf * 0.30e-6'" 
-lssource="'2*int((nf+2)/2) * (W/nf + 0.30e-6)'"
-nrd="'0.30e-6 / W'" nrs="'0.30e-6 / W'"
-sa=0.36e-6 sb=0.36e-6 sd=0 dta=0
-lgsource=1.0e-06
-lgdrain=1.0e-06
-model=nmos1v2hvt
-spiceprefix=x
-}
-C {pfet_4_7.sym} 40 -370 0 0 {name=m2
-W=1e-6
-L=1.11e-6
+L=0.11e-6
 nf=1 
 mult=1
 abdrain="'int((nf+1)/2) * W/nf * 0.30e-6'" 
@@ -90,5 +74,21 @@ sa=0.36e-6 sb=0.36e-6 sd=0 dta=0
 lgsource=1.0e-06
 lgdrain=1.0e-06
 model=pmos1v2hvt
+spiceprefix=x
+}
+C {nmos1v2hvt_4.sym} 100 -100 0 0 {name=m2
+W=1e-6
+L=0.11e-6
+nf=1 
+mult=1
+abdrain="'int((nf+1)/2) * W/nf * 0.30e-6'" 
+lsdrain="'2*int((nf+1)/2) * (W/nf + 0.30e-6)'"
+absource="'int((nf+2)/2) * W/nf * 0.30e-6'" 
+lssource="'2*int((nf+2)/2) * (W/nf + 0.30e-6)'"
+nrd="'0.30e-6 / W'" nrs="'0.30e-6 / W'"
+sa=0.36e-6 sb=0.36e-6 sd=0 dta=0
+lgsource=1.0e-06
+lgdrain=1.0e-06
+model=nmos1v2hvt
 spiceprefix=x
 }

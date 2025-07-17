@@ -5,11 +5,11 @@ V2 VD 0 0.5
 V3 net2 0 1.2
 V4 net3 0 0.7
 V5 net1 0 0.95
-xm1 VD VG 0 0 nmos1v2hvt L=1.11e-6 W=1e-6 nf=1 abdrain='int((nf+1)/2) * W/nf * 0.30e-6' absource='int((nf+2)/2) * W/nf * 0.30e-6' lsdrain='2*int((nf+1)/2) * (W/nf + 0.30e-6)'
-+ lssource='2*int((nf+2)/2) * (W/nf + 0.30e-6)' dta=0 nrd='0.30e-6 / W' nrs='0.30e-6 / W' sa=0.36e-6 sb=0.36e-6 sd=0 mult=1 m=1
-xm2 net3 net1 net2 net2 pmos1v2hvt L=1.11e-6 W=1e-6 nf=1 abdrain='int((nf+1)/2) * W/nf * 0.30e-6' absource='int((nf+2)/2) * W/nf * 0.30e-6'
+xm1 net3 net1 net2 net2 pmos1v2hvt L=0.11e-6 W=1e-6 nf=1 abdrain='int((nf+1)/2) * W/nf * 0.30e-6' absource='int((nf+2)/2) * W/nf * 0.30e-6'
 + lsdrain='2*int((nf+1)/2) * (W/nf + 0.30e-6)' lssource='2*int((nf+2)/2) * (W/nf + 0.30e-6)' dta=0 nrd='0.30e-6 / W' nrs='0.30e-6 / W'
 + sa=0.36e-6 sb=0.36e-6 sd=0 mult=1 m=1
+xm2 VD VG 0 0 nmos1v2hvt L=0.11e-6 W=1e-6 nf=1 abdrain='int((nf+1)/2) * W/nf * 0.30e-6' absource='int((nf+2)/2) * W/nf * 0.30e-6' lsdrain='2*int((nf+1)/2) * (W/nf + 0.30e-6)'
++ lssource='2*int((nf+2)/2) * (W/nf + 0.30e-6)' dta=0 nrd='0.30e-6 / W' nrs='0.30e-6 / W' sa=0.36e-6 sb=0.36e-6 sd=0 mult=1 m=1
 **** begin user architecture code
 
 

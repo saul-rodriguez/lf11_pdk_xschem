@@ -1,4 +1,4 @@
-v {xschem version=3.4.8RC file_version=1.2
+v {xschem version=3.4.7 file_version=1.2
 * Copyright 2021 Stefan Frederik Schippers
 * 
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ format="@spiceprefix@name @pinlist @model L=@L W=@W
 + dta=@dta
 + nrd=@nrd nrs=@nrs sa=@sa sb=@sb sd=@sd 
 + mult=@mult m=@mult"
-template="name=m1
+template="name=M1
 W=1e-6
 L=0.11e-6
 nf=1 
@@ -35,9 +35,9 @@ sa=0.36e-6 sb=0.36e-6 sd=0 dta=0
 lgsource=1.0e-06
 lgdrain=1.0e-06
 model=nmos1v2hvt
-spiceprefix=x
+spiceprefix=X
 "
-}
+drc="fet_drc \{@name\\\\\} \{@symname\\\\\} \{@model\\\\\} \{@W\\\\\} \{@L\\\\\} \{@nf\\\\\}"}
 V {}
 S {}
 E {}
@@ -62,8 +62,5 @@ T {G} -10 -10 0 1 0.15 0.15 {layer=7}
 T {@model} 30 -8.75 2 1 0.2 0.2 {}
 T {@mult x @W / @L} 31.25 13.75 0 0 0.2 0.2 { layer=13}
 T {nf=@nf} 31.25 1.25 0 0 0.2 0.2 { layer=13}
-T {gm=@spice_get_node \\@n.@path@spiceprefix@name\\.nm1[gm]} 30 -10 0 0 0.15 0.15 {layer=15}
-T {vgs=expr(@#1:spice_get_voltage - @#2:spice_get_voltage )
-vds=expr(@#0:spice_get_voltage - @#2:spice_get_voltage )} 5 17.5 0 1 0.07000000000000001 0.07000000000000001 {layer=15}
-T {\\@n.@path@spiceprefix@name\\.nm1} 5 -40 0 1 0.1 0.1 {}
-T {ids=@spice_get_node i(\\@n.@path@spiceprefix@name\\.nm1[ids])} 30 -30 0 0 0.15 0.15 {layer=17}
+T {tcleval(vgs=[to_eng \{@#1:spice_get_voltage - @#2:spice_get_voltage \}]
+vds=[to_eng \{@#0:spice_get_voltage - @#2:spice_get_voltage \}])} -17.5 20 0 0 0.07000000000000001 0.07000000000000001 {layer=15}
