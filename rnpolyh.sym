@@ -1,4 +1,4 @@
-v {xschem version=3.4.6 file_version=1.2
+v {xschem version=3.4.7 file_version=1.2
 * Copyright 2021 Stefan Frederik Schippers
 * 
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,11 +17,11 @@ v {xschem version=3.4.6 file_version=1.2
 G {}
 K {type=high_resistivity_n_doped_resistor
 format="@spiceprefix@name @pinlist @model w=@w l=@l m=@m"
-template="name=R1
+template="name=r1
 w=1e-6
 l=2e-6
 model=rnpolyh
-spiceprefix=X
+spiceprefix=x
 m=1"
 }
 V {}
@@ -42,9 +42,11 @@ B 5 -2.5 27.5 2.5 32.5 {name=M dir=inout propag=1 pinnumber=2}
 B 5 -2.5 -32.5 2.5 -27.5 {name=P dir=inout propag=0 pinnumber=1}
 B 5 -22.5 -2.5 -17.5 2.5 {name=B dir=inout pinnumber=1}
 T {B} -15 -12.5 0 1 0.15 0.15 {layer=7}
-T {@name} 15 -27.5 0 0 0.2 0.2 {}
-T {@m * @w / @l} 15 13.75 0 0 0.2 0.2 {layer=13}
-T {@model} 15 -13.75 0 0 0.2 0.2 {}
+T {@name} 15 -37.5 0 0 0.2 0.2 {}
+T {@m * @w / @l} 15 3.75 0 0 0.2 0.2 {layer=13}
+T {@model} 15 -23.75 0 0 0.2 0.2 {}
 T {tcleval(R=[ev \\\{ ( (0 / (@w / 1e-6)) + (1600.0 * @l ) / @w ) / @m \\\}])
 
-} 15 0 0 0 0.2 0.2 {layer=13}
+} 15 -10 0 0 0.2 0.2 {layer=13}
+T {\\@b.@path@spiceprefix@name\\.br_rnpolyh} 75 30 0 1 0.1 0.1 {}
+T {i=@spice_get_node i(\\@b.@path@spiceprefix@name\\.br_rnpolyh[i])} 20 20 0 0 0.15 0.15 {layer=17}
